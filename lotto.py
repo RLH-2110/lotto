@@ -580,22 +580,24 @@ def setFields(result_array,fields,field):
 	if (result_array == []):
 		return;
 
+	print(result_array)
+
 	i = 0
 	while i < len(result_array[0]):
 		j = result_array[0][i]
-		#print(str(j) + ": " + str(int((j-1)/10)) + "," + str(j%10))
-		fields[field][0][int((j-1)/10)][j%10]["bg"] = "yellow"
+		print(str(j) + ": " + str(int((j-1)/10)) + "," + str((j-1)%10))
+		fields[field][0][int((j-1)/10)][(j-1)%10]["bg"] = "yellow"
 		i = i + 1
 
-	#print("next")
+	print("next")
 
 	i = 0
 	while i < len(result_array[1]):
 		j = result_array[1][i]
-		#print(str(j) + ": " + str(int((j-1)/6)) + "," + str(j%6))
-		fields[field][1][int((j-1)/6)][j%6]["bg"] = "yellow"
+		print(str(j) + ": " + str(int((j-1)/6)) + "," + str((j-1)%6))
+		fields[field][1][int((j-1)/6)][(j-1)%6]["bg"] = "yellow"
 		i = i + 1
-	#print("done!")
+	print("done!")
 
 
 

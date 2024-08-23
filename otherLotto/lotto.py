@@ -53,10 +53,6 @@ def checkUniqe(array, number):
 
 
 def weightedRandom(maxValue):
-	if (maxValue < 10):
-		print("weightedRandom maxValue must be 10 or more!")
-		exit(-1)
-
 
 	maxValue = maxValue + 1 # since rand is exlusive
 
@@ -86,34 +82,34 @@ def weightedRandom(maxValue):
 	select = random.randrange(0,101) # 0 - 100
 
 	if (select <= 24):
-		return random.randrange(1,p1o10)
+		return min(random.randrange(1,p1o10),maxValue-1) 	 # -1, because we added 1 before
 	if (select <= 40):
-		return random.randrange(p1o10,p2o10)
+		return min(random.randrange(p1o10,p2o10),maxValue-1) # -1, because we added 1 before
 	if (select <= 55):
-		return random.randrange(p2o10,p3o10)
+		return min(random.randrange(p2o10,p3o10),maxValue-1) # -1, because we added 1 before
 	if (select <= 67):
-		return random.randrange(p3o10,p4o10)
+		return min(random.randrange(p3o10,p4o10),maxValue-1) # -1, because we added 1 before
 	if (select <= 77):
-		return random.randrange(p4o10,p5o10)
+		return min(random.randrange(p4o10,p5o10),maxValue-1) # -1, because we added 1 before
 	if (select <= 85):
-		return random.randrange(p5o10,p6o10)
+		return min(random.randrange(p5o10,p6o10),maxValue-1) # -1, because we added 1 before
 	if (select <= 91):
-		return random.randrange(p6o10,p7o10)
+		return min(random.randrange(p6o10,p7o10),maxValue-1) # -1, because we added 1 before
 	if (select <= 96):
-		return random.randrange(p7o10,p8o10)
+		return min(random.randrange(p7o10,p8o10),maxValue-1) # -1, because we added 1 before
 	if (select <= 99):
-		return random.randrange(p8o10,p9o10)
-	return random.randrange(p9o10,p10o10)
+		return min(random.randrange(p8o10,p9o10),maxValue-1) # -1, because we added 1 before
+	return min(random.randrange(p9o10,p10o10),maxValue-1) 	 # -1, because we added 1 before
 
 def weightedRandomTest(i):
-	counter = [0]*51
+	counter = [0]*50
 
 	while i > 0:
-		rand = weightedRandom(50)
+		rand = weightedRandom(49)
 		counter[rand] = counter[rand] + 1
 		i = i - 1
 
-	i = 50
+	i = 49
 	while (i >= 0):
 		print(str(i) + ": " + str(counter[i]))
 		i = i - 1
@@ -143,8 +139,7 @@ def createBiasedList():
 		              "f f f f f f f f f f" + \
 		              "f f f f f f f f f f" + \
 		              "f f f f f f f f f f" + \
-		              "f f f f f f f f f f" + \
-		              "f f"
+		              "f f f f f f f f"
 
 			data = file.read()
 
@@ -162,48 +157,48 @@ def createBiasedList():
 
 	#print(unpacked_data)
 
-	num50 = []
-	num12 = []
+	num49 = []
+	num9 = []
 
 	i = 1 # skip the integer for the total games
-	while i < 50 + 1:
-		num50.append(unpacked_data[i])
+	while i < 49 + 1:
+		num49.append(unpacked_data[i])
 		i = i + 1
 
-	while i < 12 + 1 + 50:
-		num12.append(unpacked_data[i])
+	while i < 9 + 1 + 49:
+		num9.append(unpacked_data[i])
 		i = i + 1
 
 
 	# unsorted
-	num50u = num50[:]
-	num12u = num12[:]
+	num49u = num49[:]
+	num9u = num9[:]
 
 	# sorted
-	num50.sort(reverse=True)
-	num12.sort(reverse=True)
+	num49.sort(reverse=True)
+	num9.sort(reverse=True)
 
 	# indexes sorted by freqency
-	num50r = []
-	num12r = []
+	num49r = []
+	num9r = []
 
 	i = 0
-	while (i < len(num50)):
-		index = num50u.index(num50[i])
-		num50u[index] = None
-		num50r.append(index)
+	while (i < len(num49)):
+		index = num49u.index(num49[i])
+		num49u[index] = None
+		num49r.append(index)
 		i = i + 1
 
 	i = 0
-	while (i < len(num12)):
-		index = num12u.index(num12[i])
-		num12u[index] = None
-		num12r.append(index)
+	while (i < len(num9)):
+		index = num9u.index(num9[i])
+		num9u[index] = None
+		num9r.append(index)
 		i = i + 1
 
 
-	biasedList.append(num50r)
-	biasedList.append(num12r)
+	biasedList.append(num49r)
+	biasedList.append(num9r)
 	
 
 
@@ -222,52 +217,52 @@ if (cfg_biased == True):
 
 def generateNumbers():
 
-	from50 = [0]*5
-	from12 = [0]*2
+	from49 = [0]*6
+	from9 = [0]*1
 
 	i = 0
-	while i < 5:
+	while i < len(from49):
 
 		rand = 0
 
 		# generate random number, untill its uniqe
 		if (cfg_biased == False):
-			rand = random.randrange(1,50+1)
+			rand = random.randrange(1,49+1)
 		else:
-			rand = weightedRandom(50)
+			rand = weightedRandom(49)
 
 
-		while checkUniqe(from50,rand) == False:
+		while checkUniqe(from49,rand) == False:
 			if (cfg_biased == False):
-				rand = random.randrange(1,50+1)
+				rand = random.randrange(1,49+1)
 			else:
-				rand = weightedRandom(50)
+				rand = weightedRandom(49)
 
 
-		from50[i] = rand
+		from49[i] = rand
 		i = i + 1
 
 	i = 0
-	while i < 2:
+	while i < len(from9):
 
 		rand = 0
 		# generate random number, untill its uniqe
 		if (cfg_biased == False):
-			rand = random.randrange(1,12+1)
+			rand = random.randrange(1,9+1)
 		else:
-			rand = weightedRandom(12)
+			rand = weightedRandom(9)
 
-		while checkUniqe(from12,rand) == False:
+		while checkUniqe(from9,rand) == False:
 			if (cfg_biased == False):
-				rand = random.randrange(1,12+1)
+				rand = random.randrange(1,9+1)
 			else:
-				rand = weightedRandom(12)
+				rand = weightedRandom(9)
 
 
-		from12[i] = rand
+		from9[i] = rand
 		i = i + 1
 
-	return from50,from12
+	return from49,from9
 
 
 
@@ -409,11 +404,15 @@ def clearFields(fields, field = None):
 
 			for row in range(2):
 				for col in range(6):
+					if (row == 1 and col >= 3):
+						break
 					fields[superI][1][row][col]["bg"] = "#d9d9d9"
 
 
 			for row in range(5):
 				for col in range(10):
+					if (row == 4 and col >= 9):
+						break
 					fields[superI][0][row][col]["bg"] = "#d9d9d9"
 
 			superI = superI + 1
@@ -421,11 +420,15 @@ def clearFields(fields, field = None):
 
 	else: # field defined
 		for row in range(2):
-				for col in range(6):
-					fields[field][1][row][col]["bg"] = "#d9d9d9"
+			for col in range(6):
+				if (row == 1 and col >= 3):
+					break
+				fields[field][1][row][col]["bg"] = "#d9d9d9"
 
 		for row in range(5):
 			for col in range(10):
+				if (row == 4 and col >= 9):
+					break
 				fields[field][0][row][col]["bg"] = "#d9d9d9"
 
 
@@ -440,27 +443,27 @@ def fix_old_result(index): #pads old_results till it contains index
 
 def generate_body(fields,field):
 	res = generateNumbers()
-	from50 = res[0]
-	from12 = res[1]
+	from49 = res[0]
+	from9 = res[1]
 
 	if cfg_consoleOut == True:
 		print(res)
 
 	if not cfg_noWindow:
-		from50s = ""
+		from49s = ""
 		i = 0
-		while i < len(from50):
-			from50s = from50s + str(from50[i])
-			if (i < len(from50)-1):
-				from50s = from50s + ", "
+		while i < len(from49):
+			from49s = from49s + str(from49[i])
+			if (i < len(from49)-1):
+				from49s = from49s + ", "
 			i = i + 1
 
-		from12s = ""
+		from9s = ""
 		i = 0
-		while i < len(from12):
-			from12s = from12s + str(from12[i])
-			if (i < len(from12)-1):
-				from12s = from12s + ", "
+		while i < len(from9):
+			from9s = from9s + str(from9[i])
+			if (i < len(from9)-1):
+				from9s = from9s + ", "
 			i = i + 1
 
 			
@@ -504,13 +507,13 @@ def initUI(numFields):
 	superI = 0
 	while superI < numFields:
 
-		from12Frame = tkinter.Frame(rootf)
-		from12Field = [[],[]]
+		from9Frame = tkinter.Frame(rootf)
+		from9Field = [[],[]]
 
-		from50Frame = tkinter.Frame(rootf)
-		from50Field = [[],[],[],[],[]]
+		from49Frame = tkinter.Frame(rootf)
+		from49Field = [[],[],[],[],[]]
 
-		fields.append([from50Field,from12Field])
+		fields.append([from49Field,from9Field])
 
 
 
@@ -518,51 +521,52 @@ def initUI(numFields):
 		
 		button = tkinter.Button(rootf,text = "Generieren",command=lambda i = superI: generate(fields,i))
 
-		# 2 from 12
+		# 1 from 9
 		i = 1
 		while i <= 6:
-			from12Field[0].append(tkinter.Label(from12Frame,text = "0"+str(i), relief=tkinter.GROOVE, borderwidth=5))
+			from9Field[0].append(tkinter.Label(from9Frame,text = "0"+str(i), relief=tkinter.GROOVE, borderwidth=5))
 			i = i + 1
-		while i <= 12:
-			if i >= 10:
-				from12Field[1].append(tkinter.Label(from12Frame,text = str(i), relief=tkinter.GROOVE, borderwidth=5))
-			else:
-				from12Field[1].append(tkinter.Label(from12Frame,text = "0"+str(i), relief=tkinter.GROOVE, borderwidth=5))
+		while i <= 9:
+			from9Field[1].append(tkinter.Label(from9Frame,text = "0"+str(i), relief=tkinter.GROOVE, borderwidth=5))
 			i = i + 1
 
 
 		for row in range(2):
 			for col in range(6):
-				from12Field[row][col].grid(row=row, column=col)
+				if (row == 1 and col >= 3):
+					break
+				from9Field[row][col].grid(row=row, column=col)
 
 
 
-		# 5 from 50
+		# 6 from 49
 
 		i = 1
 		while i < 10:
-			from50Field[0].append(tkinter.Label(from50Frame,text = "0"+str(i), relief=tkinter.GROOVE, borderwidth=5))
+			from49Field[0].append(tkinter.Label(from49Frame,text = "0"+str(i), relief=tkinter.GROOVE, borderwidth=5))
 			i = i + 1
-		from50Field[0].append(tkinter.Label(from50Frame,text = "10", relief=tkinter.GROOVE, borderwidth=5))
+		from49Field[0].append(tkinter.Label(from49Frame,text = "10", relief=tkinter.GROOVE, borderwidth=5))
 
 		i = 11
-		while i <= 50:
-			from50Field[int((i-1)/10)].append(tkinter.Label(from50Frame,text = str(i), relief=tkinter.GROOVE, borderwidth=5))
+		while i <= 49:
+			from49Field[int((i-1)/10)].append(tkinter.Label(from49Frame,text = str(i), relief=tkinter.GROOVE, borderwidth=5))
 			i = i + 1
 
 
 		for row in range(5):
 			for col in range(10):
-				from50Field[row][col].grid(row=row, column=col)
+				if (row == 4 and col >= 9):
+					break
+				from49Field[row][col].grid(row=row, column=col)
 
 		newline.pack()
 		button.pack()
-		from50Frame.pack()
+		from49Frame.pack()
 
 		newline2 = tkinter.Label(rootf,text = "\n")
 		newline2.pack()
 
-		from12Frame.pack()
+		from9Frame.pack()
 
 		newline = tkinter.Label(rootf,text = "\n")
 		newline.pack()
@@ -580,11 +584,13 @@ def setFields(result_array,fields,field):
 	if (result_array == []):
 		return;
 
+	#print(result_array)
+
 	i = 0
 	while i < len(result_array[0]):
 		j = result_array[0][i]
-		#print(str(j) + ": " + str(int((j-1)/10)) + "," + str(j%10))
-		fields[field][0][int((j-1)/10)][j%10]["bg"] = "yellow"
+		#print(str(j) + ": " + str(int((j-1)/10)) + "," + str((j-1)%10))
+		fields[field][0][int((j-1)/10)][(j-1)%10]["bg"] = "yellow"
 		i = i + 1
 
 	#print("next")
@@ -592,8 +598,8 @@ def setFields(result_array,fields,field):
 	i = 0
 	while i < len(result_array[1]):
 		j = result_array[1][i]
-		#print(str(j) + ": " + str(int((j-1)/6)) + "," + str(j%6))
-		fields[field][1][int((j-1)/6)][j%6]["bg"] = "yellow"
+		#print(str(j) + ": " + str(int((j-1)/6)) + "," + str((j-1)%6))
+		fields[field][1][int((j-1)/6)][(j-1)%6]["bg"] = "yellow"
 		i = i + 1
 	#print("done!")
 
