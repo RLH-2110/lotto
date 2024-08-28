@@ -105,8 +105,8 @@ if os.path.isfile(outputFile) or os.path.isdir(outputFile):
 	while True:
 		choice = input().upper()
 		if choice == "Y" or choice == "YES":
-			try:
-				os.remove("demofile.txt") 
+            try:
+				os.remove(outputFile) 
 			except:
 				print("failed to remove old file!")
 				exit();
